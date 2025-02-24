@@ -1,0 +1,36 @@
+<template>
+  <view class="container">
+    <text class="title">Hello, Uni-app!</text>
+    <button @click="showDialog">open your chat</button>
+  </view>
+</template>
+
+<script>
+export default {
+  methods: {
+	showDialog() {
+		uni.navigateTo({
+		  url: '/pages/chat/index' // 目标页面路径
+		});
+	}
+  }
+}
+</script>
+
+<style scoped>
+.container {
+  padding: 20px;
+  text-align: center;
+}
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+button {
+  padding: 10px 20px;
+  background-color: #007aff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+</style>
