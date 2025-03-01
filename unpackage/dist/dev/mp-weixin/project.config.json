@@ -6,7 +6,7 @@
   },
   "setting": {
     "urlCheck": false,
-    "es6": true,
+    "es6": false,
     "postcss": false,
     "minified": false,
     "newFeature": true,
@@ -19,7 +19,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.7.8",
-  "appid": "wxa7968265c2713945",
+  "appid": "wxa2a03b4280e38193",
   "projectname": "lilicat-web",
   "condition": {},
   "editorSetting": {

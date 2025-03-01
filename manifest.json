@@ -9,10 +9,10 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wxa7968265c2713945",
+        "appid" : "wxa2a03b4280e38193",
         "setting" : {
             "urlCheck" : false,
-            "es6" : true
+            "es6" : false
         },
         "usingComponents" : true
     },

@@ -1,12 +1,14 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/chat/index"
+    "pages/home/index",
+    "pages/views/chat/index",
+    "pages/home/category",
+    "pages/home/user"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app x",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "lili cat",
+    "navigationBarBackgroundColor": "#8C7C78",
     "backgroundColor": "#F8F8F8"
   },
   "usingComponents": {}

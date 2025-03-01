@@ -1,0 +1,169 @@
+<template>
+  <view class="chat-container">
+    <!-- 聊天记录 -->
+    <scroll-view class="chat-list" scroll-y="true">
+      <view v-for="(item, index) in chatList" :key="index" class="chat-item">
+        <view :class="['chat-bubble', item.role === 'user' ? 'user-bubble' : 'bot-bubble']">
+          <text>{{ item.content }}</text>
+          <view v-if="item.role === 'bot' && item.thinking" class="thinking">
+            <text>思考中...</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 输入框 -->
+    <view class="input-container">
+      <input
+        v-model="inputMessage"
+        class="input-box"
+        placeholder="请输入消息"
+        @confirm="sendMessage"
+      />
+      <button class="send-button" @click="sendMessage">发送</button>
+    </view>
+  </view>
+</template>
+
+<script>
+import { getChatMsg } from '../../../api/index.js'
+
+export default {
+  data() {
+    return {
+      inputMessage: "", // 用户输入的消息
+      chatList: [] // 聊天记录
+    };
+  },
+  methods: {
+    // 发送消息
+    sendMessage() {
+      if (!this.inputMessage.trim()) {
+        uni.showToast({
+          title: "消息不能为空",
+          icon: "none"
+        });
+        return;
+      }
+
+      // 将用户消息添加到聊天记录
+      this.chatList.push({ role: "user", content: this.inputMessage });
+      this.inputMessage = ""; // 清空输入框
+
+      // 添加“思考中...”状态
+      this.chatList.push({ role: "bot", content: "", thinking: true });
+
+      // 调用接口获取回复
+      this.getBotReply();
+    },
+
+    // 调用接口获取回复
+    async getBotReply() {
+      try {
+	    const response = await getChatMsg({
+			content: this.chatList[this.chatList.length - 2]?.content
+		})
+		
+        if (response) {
+          // 假设接口返回的数据在 response.data 中
+          const botMessage = response.choices[0]?.message.content || "我不知道该说什么";
+
+          // 更新“思考中...”状态为实际回复
+          this.chatList[this.chatList.length - 1] = {
+            role: "bot",
+            content: botMessage,
+            thinking: false
+          };
+        } else {
+          this.chatList[this.chatList.length - 1] = {
+            role: "bot",
+            content: "请求失败，请重试",
+            thinking: false
+          };
+        }
+      } catch (error) {
+        this.chatList[this.chatList.length - 1] = {
+          role: "bot",
+          content: "网络错误，请检查网络连接",
+          thinking: false
+        };
+        console.error("请求失败：", error);
+      }
+    }
+  }
+};
+</script>
+
+<style scoped>
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 96.5vh;
+  background-color: #bfaaa4;
+}
+
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.chat-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.user-bubble {
+  align-self: flex-end;
+  background-color: #F5ECD2;
+  color: #000;
+}
+
+.bot-bubble {
+  align-self: flex-start;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.thinking {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px;
+  background-color:  #F5ECD2;
+}
+
+.input-box {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #8C7C78;
+  min-height: 1.5rem;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.send-button {
+  padding: 10px 20px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #8C7C78;
+  border: none;
+  border-radius: 5px;
+}
+</style>

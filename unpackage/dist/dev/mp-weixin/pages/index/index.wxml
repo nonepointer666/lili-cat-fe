@@ -1,1 +1,0 @@
-<view id="{{b}}" change:eS="{{uV.sS}}" eS="{{$eS[b]}}" class="{{['container', 'data-v-00a60067', virtualHostClass]}}" style="{{virtualHostStyle}}" hidden="{{virtualHostHidden}}"><text class="title data-v-00a60067">Hello, Uni-app!</text><button class="data-v-00a60067" bindtap="{{a}}">open your chat</button></view><wxs src="/common/uniView.wxs" module="uV"/>
